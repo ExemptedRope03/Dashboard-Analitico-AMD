@@ -1,9 +1,10 @@
-import React, { Children, createContext,ReactNode, useContext, useState  } from "react";
+import React, { Children, createContext,ReactNode, useContext, useEffect, useState  } from "react";
 
 interface UserContextType { 
 
     userName: string | null;
     setUser: (value:string) => void;
+    closeUser: () => void;
 
 }
 
@@ -13,13 +14,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const [userName, setUserName] = useState<string | null>(null);
 
+
     const handleSetUser = (value:string) => {
         setUserName(value);
     }
+
+    const handleCloseUser = () => {
+        setUserName(null);
+        localStorage.clear();
+
+    }
     
+    useEffect(() => {
+        
+        if(localStorage.getItem('sessionName')){
+           setUserName(localStorage.getItem('sessionName')); 
+        }
+        
+      }, []);
 
     return (
-        <UserContext.Provider value={{ userName,setUser:handleSetUser }}>
+        <UserContext.Provider value={{ 
+            userName,setUser:handleSetUser,
+            closeUser:handleCloseUser,
+             }}>
             {children}
         </UserContext.Provider>
     );

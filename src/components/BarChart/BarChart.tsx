@@ -63,6 +63,6 @@ export const BarChart = () => {
     };
 
     return(
-        <Bar data={data} options={options} />
+        <Bar height={"250px"} width={"500px"} data={data} options={options} />
     );
 }

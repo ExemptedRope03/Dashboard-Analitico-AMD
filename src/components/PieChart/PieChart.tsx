@@ -41,5 +41,5 @@ export const PieChart = () => {
         },
     };
 
-    return <Pie data={dataEdad} options={options} />;
+    return <Pie height={"250px"} width={"500px"} data={dataEdad} options={options} />;
 }

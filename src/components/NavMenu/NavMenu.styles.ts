@@ -6,7 +6,7 @@ export const ContainerDivMenu = styled.div `
     background-color: ${(props) => props.theme.primary};
     color: ${(props) => props.theme.accentText};
     width: 100%;
-    height: 5%;
+    height: 50px;
     align-content:center;
     .p{
     margin:0;

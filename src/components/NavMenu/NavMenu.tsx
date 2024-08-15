@@ -1,16 +1,37 @@
 import { IconButton, Switch } from "@mui/material";
 import { BorderButton, ContainerDivMenu, GreetingsText, LabelSwitch, MenuItems, RightItems, StyledExitIcon } from "./NavMenu.styles"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from "../../context/userContext";
 
 interface NavMenuProps {
     toggleTheme: () => void;
+    modalSession:() => void;
     
 }
 
-export const  NavMenu:React.FC<NavMenuProps> = ({toggleTheme}) =>{
+export const  NavMenu:React.FC<NavMenuProps> = ({toggleTheme,modalSession}) =>{
 
-    const {userName} = useUser();
+    const {userName,closeUser} = useUser();
+
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 570);
+
+    const endSession = () =>{
+        closeUser();
+        modalSession();
+    }
+
+    useEffect(() => {
+        const handleResize = () => {
+        setIsSmallScreen(window.innerWidth <= 570);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup event listener on component unmount
+        return () => {
+        window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return(
 
@@ -18,7 +39,12 @@ export const  NavMenu:React.FC<NavMenuProps> = ({toggleTheme}) =>{
 
             <MenuItems>
 
-                <GreetingsText>Bienvenido a AMD - {userName}  </GreetingsText>
+                {isSmallScreen ? (
+                    <GreetingsText>AMD</GreetingsText>
+                ) : (
+                    <GreetingsText>Bienvenido a AMD - {userName}</GreetingsText>
+                )}
+                
 
                 <RightItems>
 
@@ -26,7 +52,7 @@ export const  NavMenu:React.FC<NavMenuProps> = ({toggleTheme}) =>{
                     <Switch onClick={toggleTheme} />
                     <BorderButton >
                        <IconButton aria-label="delete" size="large">
-                        <StyledExitIcon  />
+                        <StyledExitIcon onClick={endSession}  />
                     </IconButton> 
                     </BorderButton>
                     

@@ -61,6 +61,6 @@ export const LineChart = () => {
     };
 
     
-    return <Line data={data} options={options} />;
+    return <Line height={"250px"} width={"500px"} data={data} options={options} />;
     
 }

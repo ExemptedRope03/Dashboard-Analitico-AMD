@@ -65,7 +65,7 @@ const options = {
 };
 
 const CombinedChart: React.FC = () => {
-  return <Chart data={data} options={options} type={'bar'} />;
+  return <Chart height={"250px"} width={"500px"} data={data} options={options} type={'bar'} />;
 };
 
 export default CombinedChart;
