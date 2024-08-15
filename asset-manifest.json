@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Dashboard-Analitico-AMD/static/css/main.e6c13ad2.css",
+    "main.js": "/Dashboard-Analitico-AMD/static/js/main.3e6a41ea.js",
+    "index.html": "/Dashboard-Analitico-AMD/index.html",
+    "main.e6c13ad2.css.map": "/Dashboard-Analitico-AMD/static/css/main.e6c13ad2.css.map",
+    "main.3e6a41ea.js.map": "/Dashboard-Analitico-AMD/static/js/main.3e6a41ea.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.3e6a41ea.js"
+  ]
+}
