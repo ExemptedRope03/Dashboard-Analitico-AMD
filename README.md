@@ -31,12 +31,15 @@ Esta plataforma ha sido desarrollada con un enfoque en un diseño rápido y cóm
 
 ## Uso
 
-### Autenticación
+### Autenticación con google
 
-Para iniciar sesión en la plataforma, sigue estos pasos:
+El programa te permite colocar tus credenciales propias para la visualizacion de tu informacion:
 
-1. Haz clic en el botón "Iniciar sesión con Google".
-2. Sigue las instrucciones para autenticarte con tu cuenta de Google.
+1. Tener habilitado la cuenta de google para usar AuthO2
+2. Tener tus credenciales a la mano
+3.Colocarlas en la plataforma
+
+Las credenciales se quedan en tu localstorage y de igual manera no afecta al desempeño del programa
 
 
 
