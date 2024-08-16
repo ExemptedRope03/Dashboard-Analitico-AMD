@@ -71,4 +71,8 @@ export const StyledBox = styled(Box)`
   width: 400px;
   background-color: ${(props) => props.theme.background};
   padding: 16px;
+
+  @media (max-width: 550px) {
+    width: 300px;
+  }
 `

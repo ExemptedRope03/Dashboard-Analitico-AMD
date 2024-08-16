@@ -1,41 +1,20 @@
 import React from 'react';
 
-import { CRMSimulated } from '../../utils/simulatedData';
+
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, ChartData, ChartOptions } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend);
 
+interface CombinedChartProps{
+  labels:string[];
+  label:string[];
+  data:number[][];
+
+}
 
 
 
-const nombresLeads = CRMSimulated.leads.map((lead) => lead.nombre);
-const costoAdquisición = CRMSimulated.leads.map((lead) => lead.costoAdquisición);
-const valorDeVida = CRMSimulated.leads.map((lead) => lead.valorDeVida);
-
-
-const data = {
-  labels: nombresLeads, // Nombres de los leads en el eje X
-  datasets: [
-    {
-      type: 'bar'as const,
-      label: 'Costo de Adquisición',
-      data: [200,150], // Datos del costo de adquisición
-      backgroundColor: 'rgba(75, 192, 192, 0.6)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      borderWidth: 1,
-    },
-    {
-      type: 'line' as const,
-      label: 'Valor de Vida',
-      data: [1000,750], // Datos del valor de vida
-      borderColor: 'rgba(255, 99, 132, 1)',
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      fill: false,
-      tension: 0.1,
-    },
-  ],
-};
 
 const options = {
   responsive: true,
@@ -64,8 +43,36 @@ const options = {
   },
 };
 
-const CombinedChart: React.FC = () => {
-  return <Chart height={"250px"} width={"500px"} data={data} options={options} type={'bar'} />;
+const CombinedChart:React.FC<CombinedChartProps> = ({labels,label,data}) => {
+  
+  const datas = {
+    labels: labels, // Nombres de los leads en el eje X
+    datasets: [
+      {
+        type: 'bar'as const,
+        label: label[0],
+        data: data[0], // Datos del costo de adquisición
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+      {
+        type: 'line' as const,
+        label: label[1],
+        data: data[1], // Datos del valor de vida
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        fill: false,
+        tension: 0.1,
+      },
+    ],
+  };
+
+
+
+
+  
+  return <Chart height={"250px"} width={"500px"} data={datas} options={options} type={'bar'} />;
 };
 
 export default CombinedChart;

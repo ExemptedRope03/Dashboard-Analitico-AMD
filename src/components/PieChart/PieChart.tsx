@@ -4,29 +4,38 @@ import { GoogleAnalyticsSimulated } from '../../utils/simulatedData';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const PieChart = () => {
+interface LineChartProps{
+  labels:string[];
+  label:string[];
+  data:number[][];
 
-    const rangosEdad = GoogleAnalyticsSimulated.demografía.edad.map((dato) => dato.rango);
-    const porcentajesEdad = GoogleAnalyticsSimulated.demografía.edad.map((dato) => dato.porcentaje);
+}
 
-    const dataEdad = {
-        labels: rangosEdad, // Etiquetas para el rango de edad
-        datasets: [
-          {
-            label: 'Distribución por Edad',
-            data: porcentajesEdad, // Datos para los porcentajes de edad
-            backgroundColor: [
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(255, 99, 132, 0.6)',
-            ],
-            borderColor: [
-              'rgba(75, 192, 192, 1)',
-              'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1,
-          },
-        ],
-    };
+export const PieChart:React.FC<LineChartProps> = ({labels,label,data}) => {
+
+  const backgroundColors = ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(153, 102, 255, 0.2)'];
+  const borderColors = ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(153, 102, 255, 1)'];
+  const borderWidth = 1;
+
+  const datas1: {
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string[];
+        borderColor: string[];
+        borderWidth: number;
+    }[];
+  } = {
+    labels: labels,
+    datasets: label.map((lbl, index) => ({
+        label: lbl,
+        data: data.map(d => d[index]),
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
+        borderWidth: borderWidth
+    }))
+  };
 
     const options = {
         responsive: true,
@@ -36,10 +45,10 @@ export const PieChart = () => {
           },
           title: {
             display: true,
-            text: 'Distribución Demográfica',
+            text: 'Distribución por eda',
           },
         },
     };
 
-    return <Pie height={"250px"} width={"500px"} data={dataEdad} options={options} />;
+    return <Pie height={"250px"} width={"500px"} data={datas1} options={options} />;
 }

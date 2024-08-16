@@ -9,6 +9,7 @@ import { BarChart } from "./components/BarChart/BarChart";
 import { LineChart } from "./components/LineChart/LineChart";
 import { PieChart } from "./components/PieChart/PieChart";
 import CombinedChart from "./components/CombinedChart/CombinedChart";
+import { CRMSimulated, GoogleAdsSimulated, GoogleAnalyticsSimulated, MetaAdsSimulated } from "./utils/simulatedData";
 
 
 
@@ -16,7 +17,7 @@ function App() {
 
   //Declare main variables with use state 
   const [theme, setTheme] = useState<DefaultTheme>(lightTheme);
-  const [open, setOpen] = useState(localStorage.getItem("sessionName") ? false:true);
+  const [open, setOpen] = useState(localStorage.getItem("sessionStart") ? false:true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -26,7 +27,66 @@ function App() {
     setTheme ( theme === lightTheme ? darkTheme:lightTheme);
   }
 
+  //Tablas google analytics
+  const bounceRateLabels = GoogleAnalyticsSimulated.sesiones.map(sesiones => sesiones.fecha);
+  const bounceRateLabel = ["Tasa de rebote"];
+  const bounceRateData = GoogleAnalyticsSimulated.sesiones.map(sesiones => [sesiones.tasaRebote]);
+  const viewTimeLabels = GoogleAnalyticsSimulated.vistasPagina.map(views => views.fecha);
+  const viewTimeLabel = ["Vistas","Sesiones"];
+  const vistas = GoogleAnalyticsSimulated.vistasPagina.map(views => views.vistas);
+  const sesiones = GoogleAnalyticsSimulated.sesiones.map(sesiones => sesiones.sesiones);
+  const viewTimeData: number[][] = vistas.map((value, index) => [value, sesiones[index]]);
+  const demographicsByAgeLabels = GoogleAnalyticsSimulated.demografía.edad.map((item) => item.rango);
+  const demographicsByAgeData = GoogleAnalyticsSimulated.demografía.edad.map((item) => [item.porcentaje]);
+  const demographicsByAgeLabel = ["Distribución por Edad"];
+  const seseVsBounceLabels =  GoogleAnalyticsSimulated.sesiones.map((session) => session.fecha);
+  const seseVsBounceLabel =  ["Sesiones","Tasa de rebote"];
+  const seseVsBounceDataSes =  GoogleAnalyticsSimulated.sesiones.map((session) => session.sesiones);
+  const seseVsBounceDataBou =  GoogleAnalyticsSimulated.sesiones.map((session) => session.tasaRebote);
+  const seseVsBounceData = [seseVsBounceDataSes,seseVsBounceDataBou]
+  
+  
+  //Tablas google adds
+  type Campana = {
+    
+    impresiones: number;
+    clics: number;
+    conversiones: number;
+    costo: number;
+  };
+  type CampanaKeys = keyof Campana;
+  const infoCampGooLabels = GoogleAdsSimulated.campañas.map(campañas => campañas.nombre);
+  const allKeys = Object.keys(GoogleAdsSimulated.campañas);
+  const infoCampGooLabel: CampanaKeys[] = ['impresiones', 'clics', 'conversiones', 'costo']
+  const t:Campana[] = GoogleAdsSimulated.campañas
+  const infoCampGooData = t.map(campana => 
+    infoCampGooLabel.map(key => campana[key])
+  );
+  const evolGooLabels = GoogleAdsSimulated.campañas.map(campañas => campañas.nombre);
+  const evolGooLabel = ["impresiones","clics"]
+  const evolGooData = GoogleAdsSimulated.campañas.map(campaña => [campaña.impresiones, campaña.clics]);
+  const campaignCostLabels = GoogleAdsSimulated.campañas.map(campañas => campañas.nombre);
+  const campaignCostLabel = ["Costo de campaña"];
+  const campaignCostData = GoogleAdsSimulated.campañas.map(campañas => [campañas.costo]);
+  const clicsCostLabels = GoogleAdsSimulated.campañas.map(campañas => campañas.nombre);
+  const clicsCostLabel = ["clics","costo"];
+  const clicsCostData= GoogleAdsSimulated.campañas.map(campañas => [campañas.clics,campañas.costo]);
 
+  //Tablas meta adds
+  const infoAddMetaLabels = MetaAdsSimulated.anuncios.map(anuncios => anuncios.nombre);
+  const infoAddMetaLabel = ["alcance","participación","gastoPublicidad","conversiones"];
+  const infoAddMetaData = MetaAdsSimulated.anuncios.map(anuncios =>[anuncios.alcance,anuncios.participación,anuncios.gastoPublicidad,anuncios.conversiones])
+  const reachMetaLabel = ["alcance","participacion"];
+  const reachMetaData = MetaAdsSimulated.anuncios.map(anuncios =>[anuncios.alcance,anuncios.participación])
+  const spendMetaLabel = ["Gasto de publicidad"];
+  const spendMetaData = MetaAdsSimulated.anuncios.map(anuncios =>[anuncios.gastoPublicidad])
+  const participationSpendLabel = ["Participacion","Gasto de publicidad"];
+  const participationSpendData = MetaAdsSimulated.anuncios.map(anuncios =>[anuncios.participación,anuncios.gastoPublicidad])
+
+  //Tablas CRMS
+  const CRMSLabels = CRMSimulated.leads.map(lead => lead.nombre);
+  const CRMSLabel = ["Costo de adquisicion", "valor de vida"];
+  const CRMSData = CRMSimulated.leads.map(lead => [lead.costoAdquisición,lead.valorDeVida]);
 
   return (
 
@@ -42,19 +102,19 @@ function App() {
           <ScrollDivGraph>
 
             <GraphSpace >
-              <BarChart/>
+              <BarChart labels={bounceRateLabels} label={bounceRateLabel} data={bounceRateData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <LineChart/>
+              <LineChart labels={viewTimeLabels} label={viewTimeLabel} data={viewTimeData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <PieChart/>
+              <PieChart labels={demographicsByAgeLabels} label={demographicsByAgeLabel} data={demographicsByAgeData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <CombinedChart/>
+              <CombinedChart labels={seseVsBounceLabels} label={seseVsBounceLabel} data={seseVsBounceData}/>
             </GraphSpace>
 
           </ScrollDivGraph>
@@ -67,19 +127,19 @@ function App() {
           <ScrollDivGraph>
 
             <GraphSpace >
-              <BarChart/>
+              <BarChart labels={infoCampGooLabels} label={infoCampGooLabel} data={infoCampGooData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <LineChart/>
+              <LineChart labels={evolGooLabels} label={evolGooLabel} data={evolGooData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <PieChart/>
+              <PieChart labels={campaignCostLabels} label={campaignCostLabel} data={campaignCostData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <CombinedChart/>
+              <CombinedChart labels={clicsCostLabels} label={clicsCostLabel} data={clicsCostData}/>
             </GraphSpace>
 
           </ScrollDivGraph>
@@ -92,19 +152,19 @@ function App() {
           <ScrollDivGraph>
 
             <GraphSpace >
-              <BarChart/>
+              <BarChart labels={infoAddMetaLabels} label={infoAddMetaLabel} data={infoAddMetaData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <LineChart/>
+              <LineChart labels={infoAddMetaLabels} label={reachMetaLabel} data={reachMetaData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <PieChart/>
+              <PieChart labels={infoAddMetaLabels} label={spendMetaLabel} data={spendMetaData}/>
             </GraphSpace>
 
             <GraphSpace>
-              <CombinedChart/>
+              <CombinedChart labels={infoAddMetaLabels} label={participationSpendLabel} data={participationSpendData}/>
             </GraphSpace>
 
           </ScrollDivGraph>
@@ -117,20 +177,9 @@ function App() {
           <ScrollDivGraph>
 
             <GraphSpace >
-              <BarChart/>
+              <BarChart labels={CRMSLabels} label={CRMSLabel} data={CRMSData}/>
             </GraphSpace>
 
-            <GraphSpace>
-              <LineChart/>
-            </GraphSpace>
-
-            <GraphSpace>
-              <PieChart/>
-            </GraphSpace>
-
-            <GraphSpace>
-              <CombinedChart/>
-            </GraphSpace>
 
           </ScrollDivGraph>
           

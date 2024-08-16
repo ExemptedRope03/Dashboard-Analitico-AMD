@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ExchangeGoogleToken } from "../../services/ExchangeGoogleToken";
 import { error } from "console";
+import { ButtonLogged, FormContainer, InputName, LabelText } from "./LoginAuthGoogle.styles";
 
 
 export const LoginAuthGoogle = () => {
@@ -68,20 +69,23 @@ export const LoginAuthGoogle = () => {
     return(
         <div>
 
-        <div>
-            <p>Google client_id</p>
-            <input name="clientId" value={googleCredentials.clientId} onChange={handleInputsChange}></input>
-            <p>Google client_secret</p>
-            <input name="clientSecret" value={googleCredentials.clientSecret} onChange={handleInputsChange}></input>
-            <p>Google redirect_uri</p>
-            <input name="redirectUri" value={googleCredentials.redirectUri} onChange={handleInputsChange}></input>
+        <FormContainer>
+            <LabelText>Google client_id</LabelText>
+            <InputName name="clientId" value={googleCredentials.clientId} onChange={handleInputsChange}></InputName>
+            <LabelText>Google client_secret</LabelText>
+            <InputName name="clientSecret" value={googleCredentials.clientSecret} onChange={handleInputsChange}></InputName>
+            <LabelText>Google redirect_uri</LabelText>
+            <InputName name="redirectUri" value={googleCredentials.redirectUri} onChange={handleInputsChange}></InputName>
+            
+        </FormContainer>
+        <FormContainer>
+            <ButtonLogged disabled={localStorage.getItem('GoogleToken')?true:false} onClick={handleAuthClick}>Google auth</ButtonLogged>
+            
+            
+        </FormContainer>
+            
         </div>
-        <button onClick={handleAuthClick}>Google auth</button>
-        {localStorage.getItem('GoogleToken') ? (
-            <p>Estas Logueado</p>
-        ):(<></>)}
-
-        </div>
+        
     
     );
 }

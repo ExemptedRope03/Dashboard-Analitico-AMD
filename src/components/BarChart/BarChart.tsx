@@ -5,50 +5,43 @@ import { GoogleAdsSimulated } from "../../utils/simulatedData";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export const BarChart = () => {
+interface BarChartProps{
+  labels:string[];
+  label:string[];
+  data:number[][];
 
-    const listColors = ["rgba(75, 192, 192, 0.5)",'rgba(54, 162, 235, 0.5)','rgba(255, 206, 86, 0.5)','rgba(255, 99, 132, 0.5)']
 
-    const nombresCampañas = GoogleAdsSimulated.campañas.map((campaña) => campaña.nombre);
-    const impresionesCampañas = GoogleAdsSimulated.campañas.map((campaña) => campaña.impresiones);
-    const clicsCampañas = GoogleAdsSimulated.campañas.map((campaña) => campaña.clics);
-    const conversionesCampañas = GoogleAdsSimulated.campañas.map((campaña) => campaña.conversiones);
-    const costoCampañas = GoogleAdsSimulated.campañas.map((campaña) => campaña.costo);
+}
 
-    const data = {
-        labels: nombresCampañas,
-        datasets: [
-            {
-              label: 'Impresiones',
-              data: impresionesCampañas, // Datos para las impresiones
-              backgroundColor: 'rgba(75, 192, 192, 0.5)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Clics',
-              data: clicsCampañas, // Datos para los clics
-              backgroundColor: 'rgba(54, 162, 235, 0.5)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Conversiones',
-              data: conversionesCampañas, // Datos para las conversiones
-              backgroundColor: 'rgba(255, 206, 86, 0.5)',
-              borderColor: 'rgba(255, 206, 86, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Costo',
-              data: costoCampañas, // Datos para el costo
-              backgroundColor: 'rgba(255, 99, 132, 0.5)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              borderWidth: 1,
-            },
-          ],
-    };
-      
+export const BarChart:React.FC<BarChartProps> = ({labels,label,data}) => {
+
+   
+
+    const backgroundColors = ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(153, 102, 255, 0.2)'];
+    const borderColors = ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(153, 102, 255, 1)'];
+    const borderWidth = 1;
+
+
+    const datas1: {
+      labels: string[];
+      datasets: {
+          label: string;
+          data: number[];
+          backgroundColor: string;
+          borderColor: string;
+          borderWidth: number;
+      }[];
+  } = {
+      labels: labels,
+      datasets: label.map((lbl, index) => ({
+          label: lbl,
+          data: data.map(d => d[index]),
+          backgroundColor: backgroundColors[index],
+          borderColor: borderColors[index],
+          borderWidth: borderWidth
+      }))
+  };
+
     const options = {
         responsive: true,
         plugins: {
@@ -63,6 +56,6 @@ export const BarChart = () => {
     };
 
     return(
-        <Bar height={"250px"} width={"500px"} data={data} options={options} />
+        <Bar height={"250px"} width={"500px"} data={datas1} options={options} />
     );
 }

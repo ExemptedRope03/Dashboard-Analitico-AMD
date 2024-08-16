@@ -33,6 +33,7 @@ export const LoginStepper:React.FC<LoginStepperProps> = ({handleCloseModal}) => 
 
     const start = () =>{
         setUser(name);
+        localStorage.setItem("sessionStart","true");
         handleCloseModal();
     }
 

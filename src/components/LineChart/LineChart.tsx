@@ -4,33 +4,38 @@ import { GoogleAnalyticsSimulated } from "../../utils/simulatedData";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend, PointElement);
 
+interface LineChartProps{
+    labels:string[];
+    label:string[];
+    data:number[][];
+ 
+}
 
-export const LineChart = () => {
+export const LineChart:React.FC<LineChartProps> = ({labels,label,data}) => {
 
-    const fechas = GoogleAnalyticsSimulated.vistasPagina.map((dato) => dato.fecha);
-    const vistasPagina = GoogleAnalyticsSimulated.vistasPagina.map((dato) => dato.vistas);
-    const sesiones = GoogleAnalyticsSimulated.sesiones.map((dato) => dato.sesiones);
+    const backgroundColors = ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(153, 102, 255, 0.2)'];
+    const borderColors = ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(153, 102, 255, 1)'];
+    const borderWidth = 1;
 
-    const data = {
-        labels: fechas, // Fechas en el eje X
-        datasets: [
-          {
-            label: 'Vistas de Página',
-            data: vistasPagina, // Datos de vistas de página
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            fill: false,
-            tension: 0.1,
-          },
-          {
-            label: 'Sesiones',
-            data: sesiones, // Datos de sesiones
-            borderColor: 'rgba(255, 99, 132, 1)',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            fill: false,
-            tension: 0.1,
-          },
-        ],
+
+    const datas1: {
+        labels: string[];
+        datasets: {
+            label: string;
+            data: number[];
+            backgroundColor: string;
+            borderColor: string;
+            borderWidth: number;
+        }[];
+    } = {
+        labels: labels,
+        datasets: label.map((lbl, index) => ({
+            label: lbl,
+            data: data.map(d => d[index]),
+            backgroundColor: backgroundColors[index],
+            borderColor: borderColors[index],
+            borderWidth: borderWidth
+        }))
     };
 
     const options = {
@@ -61,6 +66,6 @@ export const LineChart = () => {
     };
 
     
-    return <Line height={"250px"} width={"500px"} data={data} options={options} />;
+    return <Line height={"250px"} width={"500px"} data={datas1} options={options} />;
     
 }
