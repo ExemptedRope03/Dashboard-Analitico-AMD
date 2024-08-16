@@ -1,8 +1,9 @@
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import {  useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LabelName, InputName, MainHeader, NameInfoDiv, SyledMobileStepper, StyledButton } from "./LoginStepper.styles";
 import {  useUser } from "../../context/userContext";
+import { LoginAuthGoogle } from "../LoginAuthGoogle/LoginAuthGoogle";
 
 interface LoginStepperProps{
     handleCloseModal: () => void;
@@ -17,6 +18,7 @@ export const LoginStepper:React.FC<LoginStepperProps> = ({handleCloseModal}) => 
     const {setUser} = useUser();
 
     const handleNext = () => {
+        localStorage.setItem("sessionName",name);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -31,8 +33,18 @@ export const LoginStepper:React.FC<LoginStepperProps> = ({handleCloseModal}) => 
 
     const start = () =>{
         setUser(name);
+        localStorage.setItem("sessionStart","true");
         handleCloseModal();
     }
+
+    useEffect(() => {
+        const nameS = localStorage.getItem("sessionName");
+        if(nameS){
+            setName(nameS);
+            setActiveStep(1);
+        }
+        
+    }, []);
 
     const renderStep = () =>{
         if (activeStep === 0){
@@ -45,7 +57,11 @@ export const LoginStepper:React.FC<LoginStepperProps> = ({handleCloseModal}) => 
 
         }else{
             return(
-                <p>Parte 2</p>
+                <div>
+
+                    <LoginAuthGoogle/>
+                    
+                </div>
             );
         }
 
