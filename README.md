@@ -57,24 +57,6 @@ Actualmente, los datos mostrados en la plataforma son estáticos debido a las li
 
 Toda la información ingresada por el usuario se mantiene localmente en las variables del sistema. No se realizan persistencias de datos en servidores externos, lo que asegura la privacidad y control del usuario sobre su información.
 
-## Contribuciones
-
-Si deseas contribuir a este proyecto, por favor sigue los siguientes pasos:
-
-1. Haz un fork del repositorio.
-2. Crea una rama para tu nueva funcionalidad:
-    ```bash
-    git checkout -b nueva-funcionalidad
-    ```
-3. Realiza tus cambios y haz un commit:
-    ```bash
-    git commit -m "Añadir nueva funcionalidad"
-    ```
-4. Sube tus cambios a tu repositorio:
-    ```bash
-    git push origin nueva-funcionalidad
-    ```
-5. Crea un Pull Request en este repositorio.
 
 ## Licencia
 
